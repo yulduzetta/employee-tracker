@@ -1,5 +1,4 @@
 const inquirer = require("inquirer");
-const connection = require("../db/database");
 const Departments = require("../lib/Departments");
 const Roles = require("../lib/Roles");
 const Employees = require("../lib/Employees");
@@ -85,6 +84,22 @@ const addNewEmployeePrompts = () => {
   });
 };
 
+const deleteEmployeePrompts = () => {
+  return employees.getEmployeeFullNames().then((res) => {
+    let employees = [];
+
+    for (let i = 0; i < res.length; i++) {
+      employees.push(res[i].full_name);
+    }
+    return inquirer.prompt({
+      type: "list",
+      name: "employee",
+      message: `Choose employee to delete`,
+      choices: employees,
+    });
+  });
+};
+
 const handleNewEmployee = () => {
   let roleId = null;
   let managerId = null;
@@ -110,6 +125,17 @@ const handleNewEmployee = () => {
   );
 };
 
+const handleRemoveEmployee = () => {
+  let employeeId = null;
+
+  return deleteEmployeePrompts().then(({ employee }) => {
+    return employees.getEmployeeIdByName(employee).then((res) => {
+      employeeId = res[0].id;
+      return employees.deleteEmployee(employeeId);
+    });
+  });
+};
+
 const interactWithUser = () => {
   whatWouldYouLikeToDoPrompt()
     .then(({ action }) => {
@@ -128,6 +154,8 @@ const interactWithUser = () => {
           return employees.getAllEmployeesByManager();
         case "Add Employee":
           return handleNewEmployee();
+        case "Remove Employee":
+          return handleRemoveEmployee();
       }
     })
     .then(() => {
