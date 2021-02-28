@@ -2,6 +2,7 @@ const inquirer = require("inquirer");
 const connection = require("../db/database");
 const Departments = require("../lib/Departments");
 const Roles = require("../lib/Roles");
+const Employees = require("../lib/Employees");
 
 const whatWouldYouLikeToDoPrompt = () => {
   return inquirer.prompt({
@@ -9,6 +10,7 @@ const whatWouldYouLikeToDoPrompt = () => {
     name: "action",
     message: "What would you like to do?",
     choices: [
+      "Exit the application",
       "View All Departments",
       "View All Roles",
       "View All Employees",
@@ -18,7 +20,6 @@ const whatWouldYouLikeToDoPrompt = () => {
       "Remove Employee",
       "Update Employee Role",
       "Update Employee Manager",
-      "Exit the application",
     ],
   });
 };
@@ -33,6 +34,8 @@ const interactWithUser = () => {
           return new Departments().getAllDepartmentsNames();
         case "View All Roles":
           return new Roles().getAllRoles();
+        case "View All Employees":
+          return new Employees().getAllEmployees();
       }
     })
     .then(() => {
