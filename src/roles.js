@@ -8,7 +8,7 @@ const roles = new Roles();
 const departments = new Departments();
 
 const handleAllRolesView = () => {
-  return roles.getRoles().then((res) => {
+  return roles.getRolesVerbose().then((res) => {
     const table = cTable.getTable("\n", res);
     console.log(table);
   });
