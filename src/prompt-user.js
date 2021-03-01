@@ -3,6 +3,8 @@ const Departments = require("../lib/Departments");
 const Roles = require("../lib/Roles");
 const Employees = require("../lib/Employees");
 const employeeHandler = require("../src/employees");
+const departmentHandler = require("../src/departments");
+const roleHandler = require("../src/roles");
 
 const employees = new Employees();
 const roles = new Roles();
@@ -16,20 +18,21 @@ const whatWouldYouLikeToDoPrompt = () => {
     choices: [
       "Exit the application",
       "View All Departments",
+      "Add Department",
+      "Remove Department",
       "View All Roles",
+      "Add Role",
+      "Remove Role",
       "View All Employees",
-      "View All Employees By Department",
-      "View All Employees By Manager",
       "Add Employee",
       "Remove Employee",
       "Update Employee Role",
       "Update Employee Manager",
-      "View Employees by Manager",
       "View Employees by Department",
-      "Delete Department",
-      "Delete Role",
-      "Delete Employees",
-      "View the total utilized budget of a department",
+      "View Employees by Manager",
+      "Order All Employees By Department",
+      "Order All Employees By Manager",
+      "View The Total Utilized Budget Of A Department",
     ],
   });
 };
@@ -41,14 +44,14 @@ const interactWithUser = () => {
         case "Exit the application":
           return process.exit();
         case "View All Departments":
-          return deparments.getAllDepartmentsNames();
+          return departmentHandler.handleAllDeparmentsView();
         case "View All Roles":
-          return roles.getRolesVerbose();
+          return roleHandler.handleAllRolesView();
         case "View All Employees":
           return employees.getAllEmployees();
-        case "View All Employees By Department":
+        case "Order All Employees By Department":
           return employees.getAllEmployeesByDepartment();
-        case "View All Employees By Manager":
+        case "Order All Employees By Manager":
           return employees.getAllEmployeesByManager();
         case "Add Employee":
           return employeeHandler.handleNewEmployee();
@@ -58,6 +61,20 @@ const interactWithUser = () => {
           return employeeHandler.handleUpdateEmployeeRole();
         case "Update Employee Manager":
           return employeeHandler.handleUpdateEmployeeManager();
+        case "Add Department":
+          return departmentHandler.handleNewDepartment();
+        case "Remove Department":
+          return departmentHandler.handleRemoveDepartment();
+        case "Add Role":
+          return roleHandler.handleNewRole();
+        case "Remove Role":
+          return roleHandler.handleRemoveRole();
+        case "View Employees by Department":
+          return employeeHandler.handleViewEmployeesByDepartment();
+        case "View Employees by Manager":
+          return employeeHandler.handleViewEmployeesByManagers();
+        case "View The Total Utilized Budget Of A Department":
+          return departmentHandler.handleDepartmentLevelBudget();
       }
     })
     .then(() => {

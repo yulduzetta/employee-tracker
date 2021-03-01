@@ -1,9 +1,13 @@
 const inquirer = require("inquirer");
+const cTable = require("console.table");
+
 const Roles = require("../lib/Roles");
 const Employees = require("../lib/Employees");
+const Departments = require("../lib/Departments");
 
 const employees = new Employees();
 const roles = new Roles();
+const departments = new Departments();
 
 const addNewEmployeePrompts = () => {
   return roles.getRoles().then((res) => {
@@ -121,23 +125,17 @@ const handleRemoveEmployee = () => {
 
 const updateEmployeeRolePrompts = () => {
   return employees.getEmployeeFullNames().then((res) => {
-    let employees = [];
+    let existingEmployees = [];
     let existingRoles = [];
 
     for (let i = 0; i < res.length; i++) {
-      employees.push(res[i].full_name);
+      existingEmployees.push(res[i].full_name);
     }
     return roles.getRoles().then((res) => {
       for (let i = 0; i < res.length; i++) {
         existingRoles.push(res[i].title);
       }
       return inquirer.prompt([
-        {
-          type: "list",
-          name: "employee",
-          message: `Choose employee to update`,
-          choices: employees,
-        },
         {
           type: "list",
           name: "role",
@@ -221,10 +219,59 @@ const handleUpdateEmployeeManager = () => {
   });
 };
 
+const viewEmployeesByDepartmentPrompts = () => {
+  let existingDepartments = [];
+  return departments.getAllDepartmentsNames().then((res) => {
+    for (let i = 0; i < res.length; i++) {
+      existingDepartments.push(res[i].department_name);
+    }
+    return inquirer.prompt({
+      type: "list",
+      name: "departmentName",
+      message: `Choose a department`,
+      choices: existingDepartments,
+    });
+  });
+};
+
+const handleViewEmployeesByDepartment = () => {
+  return viewEmployeesByDepartmentPrompts().then(({ departmentName }) => {
+    return employees.getEmployeesByDepartment(departmentName).then((res) => {
+      const table = cTable.getTable("\n", res);
+      console.log(table);
+    });
+  });
+};
+
+const viewEmployeeByManagersPrompts = () =>{
+  let existingManagers = [];
+  return employees.getManagers().then((res) => {
+    for (let i = 0; i < res.length; i++) {
+      existingManagers.push(res[i].manager_name);
+    }
+    return inquirer.prompt({
+      type: "list",
+      name: "managerName",
+      message: `Choose a manager`,
+      choices: existingManagers,
+    });
+  });
+}
+
+const handleViewEmployeesByManagers = () => {
+  return viewEmployeeByManagersPrompts().then(({ managerName }) => {
+    return employees.getEmployeesByManager(managerName).then((res) => {
+      const table = cTable.getTable("\n", res);
+      console.log(table);
+    });
+  });
+};
+
 module.exports = {
-  addNewEmployeePrompts,
   handleNewEmployee,
   handleRemoveEmployee,
   handleUpdateEmployeeRole,
   handleUpdateEmployeeManager,
+  handleViewEmployeesByDepartment,
+  handleViewEmployeesByManagers,
 };

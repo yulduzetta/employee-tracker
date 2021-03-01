@@ -7,8 +7,6 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "jest",
-    "dev": "nodemon",
     "db": "mysql -u root -p"
   },
   "repository": {
