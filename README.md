@@ -1,7 +1,7 @@
 
 # Employee Tracker ![MIT License](https://img.shields.io/badge/mit-brightgreen) ![Javascript](https://img.shields.io/github/languages/top/nielsenjared/badmath)
 
-### [Demo video](https://www.youtube.com/watch?v=_magC9Du34A&feature=youtu.be) will walk you through the application and its usage
+### [Demo video](https://www.youtube.com/watch?v=S9upGzIs8Cs&feature=youtu.be) will walk you through the application and its usage
 <img width="932" alt="sql-demo" src="https://user-images.githubusercontent.com/13324397/109463860-54cf8280-7a2b-11eb-8ddc-09f31c5f0498.png">
 
 ## Description 🤓
