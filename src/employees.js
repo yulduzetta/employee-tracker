@@ -138,6 +138,12 @@ const updateEmployeeRolePrompts = () => {
       return inquirer.prompt([
         {
           type: "list",
+          name: "employee",
+          message: `Choose employee you want to update `,
+          choices: existingEmployees,
+        },
+        {
+          type: "list",
           name: "role",
           message: `What is your employee's new role `,
           choices: existingRoles,
